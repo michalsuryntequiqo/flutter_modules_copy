@@ -13,7 +13,7 @@ class EventDispatcher extends EventTracker<Event> {
   }
 
   @override
-  Future<void> send(Event event) {
+  void send(Event event) {
     for (final key in eventTrackers.keys) {
       for (final eventType in event.types) {
         if (eventType == key) {

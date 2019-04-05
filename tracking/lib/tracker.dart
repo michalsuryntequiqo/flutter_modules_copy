@@ -1,3 +1,3 @@
 abstract class EventTracker<Event> {
-  Future<void> send(Event event);
+  void send(Event event);
 }

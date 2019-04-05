@@ -21,7 +21,7 @@ main() {
 
   test('should NOT send event when NO tracker is assigned', () async {
     // When:
-    await dispatcher.send(_AdjustEvent());
+    dispatcher.send(_AdjustEvent());
 
     // Then:
     verifyNever(firebaseTracker.send(any));
@@ -32,7 +32,7 @@ main() {
     final event = _FirebaseEvent();
 
     // When:
-    await dispatcher.send(event);
+    dispatcher.send(event);
 
     // Then:
     verify(firebaseTracker.send(event));
@@ -43,7 +43,7 @@ main() {
     final event = _AdjustFirebaseEvent();
 
     // When:
-    await dispatcher.send(event);
+    dispatcher.send(event);
 
     // Then:
     verify(firebaseTracker.send(event));
@@ -55,7 +55,7 @@ main() {
     final event = _FirebaseEvent();
 
     // When:
-    await dispatcher.send(event);
+    dispatcher.send(event);
 
     // Then:
     verify(firebaseTracker.send(event));
