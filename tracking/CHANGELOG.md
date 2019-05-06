@@ -1,4 +1,4 @@
-## [1.0.0] - Universal tracking module for Flaconi Flutter apps.
+## [1.1.0] - Universal tracking module for Flaconi Flutter apps.
 
 
 Tracking layer allowing sending event to multiple tracking providers.
@@ -6,41 +6,40 @@ Tracking layer allowing sending event to multiple tracking providers.
 #Usage
 1. Define specific event type implementing `Event`, for example:
 
-    `abstract class AdjustEvent extends Event {}`
+`
+abstract class AdjustEvent extends Event {
+    @override
+    List<Type> get types => [AdjustEventType];
+}
+`
     
 2. Create tracker that implements `Tracker`:
 
 `
-class FirebaseTracker extends EventTracker<FirebaseEvent> {
+class AdjustTracker extends EventTracker<Event> {
   @override
   Future<void> send(Event event) {
-    print('Firebase Tracker: send event.');
+    // TODO: Send your event here
   }
 }
 `
 
-3. Init `EventDispatcher` and add lineked Event type and Tracker:
+3. Init `EventDispatcher` and add linked Event type and Tracker:
 
-`    dispatcher.addTracker(FirebaseEvent, firebaseTracker);
+`
+dispatcher.addTracker(AdjustEvent, adjustTracker);
 `
 
-4. Create any event, implementing `Event`, for example `LoginEvent`:
+4. Create any event, implementing `AdjustEvent`, for example `LoginEvent`:
 
-class LoginEvent implements Event {}
-  LoginEvent({
-    @required this.types
-  }) : assert(types.length > 0);
-
-  @override
-  List<Type> types;
-
-  @override
-  List<Map<String, dynamic>> parameters = [{'loggedin': true}];
+`
+class LoginEvent extends AdjustEvent {
+    @override
+    List<Parameter> parameters = [Parameter('loggedin': true)];
 }
+`
 
 5. User `Dispatcher` to send the event. Dispatcher will send the specific event where needed.
-`    dispatcher.send(loginEvent);
+` 
+dispatcher.send(loginEvent);
 `
-
-
-    

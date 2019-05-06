@@ -1,27 +1,28 @@
 import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
-import 'package:tracking/event.dart';
-import 'package:tracking/event_dispatcher.dart';
-import 'package:tracking/tracker.dart';
-import 'package:tracking/parameter.dart';
+import 'package:tracking/src/event.dart';
+import 'package:tracking/src/event_dispatcher.dart';
+import 'package:tracking/src/tracker.dart';
+import 'package:tracking/src/parameter.dart';
 
 main() {
-  EventTracker<FirebaseEvent> firebaseTracker;
-  EventTracker<AdjustEvent> adjustTracker;
+  EventTracker<Event> firebaseTracker;
+  EventTracker<Event> adjustTracker;
   EventDispatcher dispatcher;
 
   setUp(() {
     firebaseTracker = _FirebaseTrackerMock();
     adjustTracker = _AdjustTrackerMock();
 
-    dispatcher = EventDispatcher();
-    dispatcher.addTracker(FirebaseEvent, firebaseTracker);
-    dispatcher.addTracker(AdjustEvent, adjustTracker);
+    dispatcher = EventDispatcher.withTrackers([
+      TrackerEntry(_FirebaseEvent, firebaseTracker),
+      TrackerEntry(_AdjustEvent, adjustTracker)
+    ]);
   });
 
   test('should NOT send event when NO tracker is assigned', () async {
     // When:
-    await dispatcher.send(_AdjustEvent());
+    dispatcher.send(_AdjustEvent());
 
     // Then:
     verifyNever(firebaseTracker.send(any));
@@ -32,7 +33,7 @@ main() {
     final event = _FirebaseEvent();
 
     // When:
-    await dispatcher.send(event);
+    dispatcher.send(event);
 
     // Then:
     verify(firebaseTracker.send(event));
@@ -43,7 +44,7 @@ main() {
     final event = _AdjustFirebaseEvent();
 
     // When:
-    await dispatcher.send(event);
+    dispatcher.send(event);
 
     // Then:
     verify(firebaseTracker.send(event));
@@ -55,38 +56,35 @@ main() {
     final event = _FirebaseEvent();
 
     // When:
-    await dispatcher.send(event);
+    dispatcher.send(event);
 
     // Then:
     verify(firebaseTracker.send(event));
   });
 }
 
-abstract class FirebaseEvent extends Event {}
-abstract class AdjustEvent extends Event {}
-
-class _FirebaseEvent implements FirebaseEvent {
+class _FirebaseEvent implements Event {
   @override
   List<Parameter> get parameters => [];
 
   @override
-  List<Type> get types => [FirebaseEvent];
+  List<Type> get types => [_FirebaseEvent];
 }
 
-class _AdjustEvent implements AdjustEvent {
+class _AdjustEvent implements Event {
   @override
   List<Parameter> get parameters => [];
 
   @override
-  List<Type> get types => [AdjustEvent];
+  List<Type> get types => [_AdjustEvent];
 }
 
-class _AdjustFirebaseEvent implements AdjustEvent, FirebaseEvent {
+class _AdjustFirebaseEvent implements Event {
   @override
   List<Parameter> get parameters => [];
 
   @override
-  List<Type> get types => [AdjustEvent, FirebaseEvent];
+  List<Type> get types => [_AdjustEvent, _FirebaseEvent];
 }
 
 class _FirebaseTrackerMock<FirebaseEvent> extends Mock
