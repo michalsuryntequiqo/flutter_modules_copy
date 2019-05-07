@@ -1,0 +1,21 @@
+name: adjust_tracker
+description: Adjust tracker layer used for tracking events.
+version: 0.1.0
+author:
+homepage:
+
+environment:
+  sdk: ">=2.1.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  adjust_sdk: ^4.17.0
+  tracking:
+     git:
+      url: https://github.com/michalsuryntequiqo/flutter_modules_copy.git #git://git@github.com:Flaconi/flutter_modules
+      path: tracking
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter

@@ -1,6 +1,6 @@
 library tracking;
 
-export 'event.dart';
-export 'parameter.dart';
-export 'tracker.dart';
-export 'event_dispatcher.dart';
+export 'package:tracking/src/event.dart';
+export 'package:tracking/src/event_dispatcher.dart';
+export 'package:tracking/src/parameter.dart';
+export 'package:tracking/src/tracker.dart';
