@@ -1,11 +1,7 @@
-library adjust_tracker;
-
 import 'package:adjust_sdk/adjust.dart';
 import 'package:adjust_sdk/adjust_config.dart';
 import 'package:adjust_sdk/adjust_event.dart';
-import 'package:tracking/event.dart';
-import 'package:tracking/parameter.dart';
-import 'package:tracking/tracker.dart';
+import 'package:tracking/tracking.dart';
 
 export 'package:adjust_sdk/adjust_config.dart';
 

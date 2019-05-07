@@ -1,4 +1,4 @@
-import 'package:tracking/event.dart';
+import 'package:tracking/tracking.dart';
 
 abstract class AdjustEventType extends Event {
   @override
